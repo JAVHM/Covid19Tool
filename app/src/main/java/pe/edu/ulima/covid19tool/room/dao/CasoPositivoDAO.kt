@@ -1,23 +1,24 @@
 package pe.edu.ulima.covid19tool.room.dao
 
 import androidx.room.*
-import pe.edu.ulima.covid19tool.room.models.CasoPositivo
+import pe.edu.ulima.covid19tool.models.beans.PositivosObjTemp
 
 
 @Dao
 interface CasoPositivoDAO {
 
-    @Query("SELECT * FROM CasoPositivo")
-    suspend fun obtenerCasos():List<CasoPositivo>
+    @Query("SELECT * FROM PositivosObjTemp")
+    fun obtenerCasos(): List<PositivosObjTemp>
 
-    @Query("SELECT * FROM CasoPositivo WHERE FechaResultado=:fecha")
-    suspend fun getByFecha(fecha: Int):CasoPositivo
+    @Query("SELECT * FROM PositivosObjTemp WHERE FECHA=:fecha")
+    fun getByFecha(fecha: Int):PositivosObjTemp
 
     @Insert
-    suspend fun insert(casosPositivos: CasoPositivo)
-    @Update
-    suspend fun update(casoPositivo:CasoPositivo)
+    fun insert(PositivosObjTemp: PositivosObjTemp)
 
-    @Delete
-    suspend fun delete(casoPositivo:CasoPositivo )
+    @Update
+    fun update(PositivosObjTemp:PositivosObjTemp)
+
+    @Query("DELETE FROM PositivosObjTemp WHERE ID=:id")
+    fun delete(id:Int)
 }
