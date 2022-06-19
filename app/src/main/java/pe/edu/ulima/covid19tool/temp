@@ -1,0 +1,19 @@
+private fun readCSV(){
+        val temp = InputStreamReader(assets.open("CSVTemporal"))
+        val minput = InputStreamReader(assets.open("Category.csv"))
+        val reader = BufferedReader(
+            InputStreamReader(temp)
+        )
+        val line = ""
+        try{
+            while ((line == reader.readLine()) != null){
+                val str = line.split(",".toRegex(), 2).toTypedArray()  // defining n columns
+                val ptemp = PositivosObjTemp(str[0], str[1])
+                listTemp.add(ptemp)
+                print("Se ha agregado:" + ptemp)
+            }
+        } catch (e : IOException){
+            print("ERROR")
+            e.printStackTrace()
+        }
+    }
