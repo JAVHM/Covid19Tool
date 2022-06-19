@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     private fun readCSV(){
         val minput = InputStreamReader(assets.open("positivos_covid.csv"))
         val reader = BufferedReader(minput)
-
+        //asasas
         var line : String?
         var displayData : String = ""
 
