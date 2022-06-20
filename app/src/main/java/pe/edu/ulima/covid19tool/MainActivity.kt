@@ -9,7 +9,9 @@ import kotlinx.coroutines.launch
 import pe.edu.ulima.covid19tool.models.beans.PositivosObjTemp
 import pe.edu.ulima.covid19tool.room.CasosDB
 import java.io.BufferedReader
+import java.io.DataInputStream
 import java.io.InputStreamReader
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,4 +58,17 @@ class MainActivity : AppCompatActivity() {
             println("Se ha agregado:" + ptemp.ID + " " + ptemp.DEPARTAMENTO + " " + ptemp.FECHA)
         }
     }
+
+    private fun getMethod(){
+        val url = URL("https://files.minsa.gob.pe/s/eRqxR35ZCxrzNgr/download%22)")
+        val connection = url.openConnection()
+        val contentLength = connection.contentLength
+
+        val stream = DataInputStream(url.openStream())
+
+        val buffer = ByteArray(contentLength)
+        stream.readFully(buffer)
+        stream.close()
+    }
+
 }
