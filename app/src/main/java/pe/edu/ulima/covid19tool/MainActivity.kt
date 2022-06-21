@@ -38,9 +38,18 @@ class MainActivity : AppCompatActivity() {
            // room.casoPositivoDAO().insert(PositivosObjTemp(2,"lima",1231))
             //room.casoPositivoDAO().insert(PositivosObjTemp(3,"lima",1231))
 
-            val minput = InputStreamReader(assets.open("positivos_covid.csv"))
-            val reader = BufferedReader(minput)
+//          Probando cargar CSV online
+            val url = URL("https://files.minsa.gob.pe/s/eRqxR35ZCxrzNgr/download%22)")
+            val connection = url.openConnection()
+            connection.doOutput=true
+
+            val reader = BufferedReader(InputStreamReader(connection.getInputStream()))
+
+//          Intento con archivo CSV
+//          val minput = InputStreamReader(assets.open("positivos_covid.csv"))
+//          val reader = BufferedReader(minput)
             //asasas YO TE #ESCUCHO
+
             var line : String?
 
             var count: Int = 0
