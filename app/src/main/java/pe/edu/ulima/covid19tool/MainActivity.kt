@@ -1,6 +1,7 @@
 package pe.edu.ulima.covid19tool
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Database
@@ -18,6 +19,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //Botones
+        val btnSinconizar=findViewById<Button>(R.id.btnSincronizar)
+        val btnLimpiar=findViewById<Button>(R.id.btnLimpiar)
+        val btnVerData=findViewById<Button>(R.id.btnVerData)
+
+
+
+
+
+
+
         //DATABASE
         val room=Room.databaseBuilder(this,CasosDB::class.java,"casosBD").build()
 
