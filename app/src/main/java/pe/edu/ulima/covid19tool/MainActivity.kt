@@ -25,11 +25,6 @@ class MainActivity : AppCompatActivity() {
         val btnVerData=findViewById<Button>(R.id.btnVerData)
         //asdasdasd
 
-
-
-
-
-
         //DATABASE
         val room=Room.databaseBuilder(this,CasosDB::class.java,"casosBD").build()
 
@@ -39,7 +34,9 @@ class MainActivity : AppCompatActivity() {
             //room.casoPositivoDAO().insert(PositivosObjTemp(3,"lima",1231))
 
 //          Probando cargar CSV online
-            val url = URL("https://files.minsa.gob.pe/s/eRqxR35ZCxrzNgr/download%22)")
+            try{
+
+            val url = URL("https://files.minsa.gob.pe/s/eRqxR35ZCxrzNgr/download")
             val connection = url.openConnection()
             connection.doOutput=true
 
@@ -75,6 +72,9 @@ class MainActivity : AppCompatActivity() {
             println("BORRAR ROOM")
             for (item in casos){
                 room.casoPositivoDAO().delete(item.ID)
+            }
+            } catch (e: Exception) {
+                println("Error $e")
             }
         }
 
