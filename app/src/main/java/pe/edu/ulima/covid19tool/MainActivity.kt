@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        readCSV()
+        //readCSV()
         //DATABASE
         val room=Room.databaseBuilder(this,CasosDB::class.java,"casosBD").build()
 
@@ -26,52 +26,42 @@ class MainActivity : AppCompatActivity() {
             //room.casoPositivoDAO().insert(PositivosObjTemp(1,"lima",1231))
            // room.casoPositivoDAO().insert(PositivosObjTemp(2,"lima",1231))
             //room.casoPositivoDAO().insert(PositivosObjTemp(3,"lima",1231))
-//            listTemp.forEach{
-//                    item->
-//                room.casoPositivoDAO().insert(PositivosObjTemp(item.ID,item.DEPARTAMENTO,item.FECHA))
-//                println("item"+item.ID+""+item.FECHA+""+item.DEPARTAMENTO)
-//            }
-            val casos = room.casoPositivoDAO().obtenerCasos()
-            for (item in casos){
-                println("${item.ID},${item.DEPARTAMENTO},${item.FECHA}")
-            }
-            for (item in casos){
-                println("prueba")
-                println("${item.ID},${item.DEPARTAMENTO},${item.FECHA}")
+
+            val minput = InputStreamReader(assets.open("positivos_covid.csv"))
+            val reader = BufferedReader(minput)
+            //asasas
+            var line : String?
+
+            var count: Int = 0
+            var countRow: Int=0
+            while (reader.readLine().also { line = it } != null){
+                val row : List<String> = line!!.split(";")
+
+                if(countRow!=0){
+                    val ptemp = PositivosObjTemp(count, row[1], row[7].toInt())
+                    count++;
+
+                    room.casoPositivoDAO().insert(PositivosObjTemp(ptemp.ID,ptemp.DEPARTAMENTO,ptemp.FECHA))
+                    println("item"+ptemp.ID+""+ptemp.FECHA+""+ptemp.DEPARTAMENTO)
+                }
+                countRow++
             }
 
+            val casos = room.casoPositivoDAO().obtenerCasos()
+            println("LEER ROOM")
+            for (item in casos){
+                println("${item.ID},${item.DEPARTAMENTO},${item.FECHA}")
+            }
+            println("BORRAR ROOM")
+            for (item in casos){
+                room.casoPositivoDAO().delete(item.ID)
+            }
         }
 
     }
 
-
-    var listTemp = mutableListOf<PositivosObjTemp>()
-
     private fun readCSV(){
-        val minput = InputStreamReader(assets.open("positivos_covid.csv"))
-        val reader = BufferedReader(minput)
-        //asasas
-        var line : String?
-        var displayData : String = ""
 
-        var count: Int = 4
-        var countRow: Int=0
-        while (reader.readLine().also { line = it } != null){
-            val row : List<String> = line!!.split(";")
-
-            if(countRow!=0){
-                val ptemp = PositivosObjTemp(count, row[1], row[7].toInt())
-                count++;
-
-                listTemp.add(ptemp)
-                println("Se ha agregado:" + ptemp.ID + " " + ptemp.DEPARTAMENTO + " " + ptemp.FECHA)
-            }
-            countRow++
-        }
-//        listTemp.forEach{
-//            item->
-//            println("item"+item.ID+""+item.FECHA+""+item.DEPARTAMENTO)
-//        }
     }
 
     private fun getMethod(){
