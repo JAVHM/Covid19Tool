@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         val btnSinconizar=findViewById<Button>(R.id.btnSincronizar)
         val btnLimpiar=findViewById<Button>(R.id.btnLimpiar)
         val btnVerData=findViewById<Button>(R.id.btnVerData)
-
+        //asdasdasd
 
 
 
