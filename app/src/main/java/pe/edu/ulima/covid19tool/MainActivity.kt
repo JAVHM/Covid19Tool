@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //readCSV()a
+        //readCSV()aa
         //DATABASE
         val room=Room.databaseBuilder(this,CasosDB::class.java,"casosBD").build()
 
