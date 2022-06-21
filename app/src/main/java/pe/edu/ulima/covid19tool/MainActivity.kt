@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //readCSV()
         //DATABASE
         val room=Room.databaseBuilder(this,CasosDB::class.java,"casosBD").build()
 
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
             val minput = InputStreamReader(assets.open("positivos_covid.csv"))
             val reader = BufferedReader(minput)
-            //asasas
+            //asasas YO TE #ESCUCHO
             var line : String?
 
             var count: Int = 0
