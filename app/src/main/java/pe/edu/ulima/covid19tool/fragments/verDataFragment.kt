@@ -27,7 +27,6 @@ class verDataFragment : Fragment(R.layout.verdatafragment) {
         val room= Room.databaseBuilder(container?.context!!.applicationContext, CasosDB::class.java,"casosBD").build()
         //LeerData(room)
         LlenarTabla(room, view)
-
         return view
     }
 
