@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/javan/AndroidStudioProjects/Covid19Tool/app/src/main/res/layout/activity_main.xml" value="0.35733695652173914" />
+        <entry key="..\:/Users/javan/AndroidStudioProjects/Covid19Tool/app/src/main/res/layout/fragment_menu.xml" value="0.22" />
+        <entry key="..\:/Users/javan/AndroidStudioProjects/Covid19Tool/app/src/main/res/layout/menufragment.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/javan/AndroidStudioProjects/Covid19Tool/app/src/main/res/layout/registro.xml" value="0.36037441497659906" />
+        <entry key="..\:/Users/javan/AndroidStudioProjects/Covid19Tool/app/src/main/res/layout/verdatafragment.xml" value="0.5" />
       </map>
     </option>
   </component>

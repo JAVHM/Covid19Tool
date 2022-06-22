@@ -1,46 +1,4 @@
-private fun readCSV(){
-        val temp = InputStreamReader(assets.open("CSVTemporal"))
-        val minput = InputStreamReader(assets.open("Category.csv"))
-        val reader = BufferedReader(
-            InputStreamReader(temp)
-        )
-        val line = ""
-        try{
-            while ((line == reader.readLine()) != null){
-                val str = line.split(",".toRegex(), 2).toTypedArray()  // defining n columns
-                val ptemp = PositivosObjTemp(str[0], str[1])
-                listTemp.add(ptemp)
-                print("Se ha agregado:" + ptemp)
-            }
-        } catch (e : IOException){
-            print("ERROR")
-            e.printStackTrace()
-        }
-    }
-
-
-package pe.edu.ulima.covid19tool
-
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import androidx.room.Database
-import androidx.room.Room
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import pe.edu.ulima.covid19tool.models.beans.PositivosObjTemp
-import pe.edu.ulima.covid19tool.room.CasosDB
-import java.io.BufferedReader
-import java.io.DataInputStream
-import java.io.InputStreamReader
-import java.net.URL
-
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        //readCSV()
-        //DATABASE
+//DATABASE
         val room=Room.databaseBuilder(this,CasosDB::class.java,"casosBD").build()
 
         lifecycleScope.launch(Dispatchers.IO){
@@ -48,9 +6,16 @@ class MainActivity : AppCompatActivity() {
            // room.casoPositivoDAO().insert(PositivosObjTemp(2,"lima",1231))
             //room.casoPositivoDAO().insert(PositivosObjTemp(3,"lima",1231))
 
+//          Probando cargar CSV online
+            //val url = URL("https://files.minsa.gob.pe/s/eRqxR35ZCxrzNgr/download%22)")
+            //val connection = url.openConnection()
+            //connection.doOutput=true
+            //al reader = BufferedReader(InputStreamReader(connection.getInputStream()))
+
+//          Intento con archivo CSV
             val minput = InputStreamReader(assets.open("positivos_covid.csv"))
             val reader = BufferedReader(minput)
-            //asasas
+
             var line : String?
 
             var count: Int = 0
@@ -69,32 +34,146 @@ class MainActivity : AppCompatActivity() {
             }
 
             val casos = room.casoPositivoDAO().obtenerCasos()
+            println("LEER ROOM")
             for (item in casos){
                 println("${item.ID},${item.DEPARTAMENTO},${item.FECHA}")
             }
+            println("BORRAR ROOM")
             for (item in casos){
-                println("prueba")
-                println("${item.ID},${item.DEPARTAMENTO},${item.FECHA}")
+                room.casoPositivoDAO().delete(item.ID)
             }
-
         }
 
+package pe.edu.ulima.covid19tool
+
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Button
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.lifecycleScope
+import androidx.room.Database
+import androidx.room.Room
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import pe.edu.ulima.cineluna.models.fragments.verDataFragment
+import pe.edu.ulima.covid19tool.fragments.menuFragment
+import pe.edu.ulima.covid19tool.models.beans.PositivosObjTemp
+import pe.edu.ulima.covid19tool.room.CasosDB
+import java.io.BufferedReader
+import java.io.DataInputStream
+import java.io.InputStreamReader
+import java.net.URL
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val fragmentMenu = menuFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer, fragmentMenu).commit()
+        //Botones
+        val btnSinconizar=findViewById<Button>(R.id.btnSincronizar)
+        val btnLimpiar=findViewById<Button>(R.id.btnLimpiar)
+        val btnVerData=findViewById<Button>(R.id.btnVerData)
+        val room=Room.databaseBuilder(this,CasosDB::class.java,"casosBD").build()
+
+        //SET ONCLICK
+        btnSinconizar!!.setOnClickListener{v: View ->
+            SincronizarData(room)
+        }
+        btnLimpiar!!.setOnClickListener{v: View ->
+            LimpiarData(room)
+        }
+        btnVerData!!.setOnClickListener { v ->
+            verData(verDataFragment())
+        }
     }
 
-    private fun readCSV(){
+    private fun SincronizarData(room : CasosDB){
+        lifecycleScope.launch(Dispatchers.IO){
+            //Intento con archivo CSV
+            val minput = InputStreamReader(assets.open("positivos_covid.csv"))
+            val reader = BufferedReader(minput)
 
+            var line : String?
+
+            var count: Int = 0
+            var countRow: Int=0
+            while (reader.readLine().also { line = it } != null){
+                val row : List<String> = line!!.split(";")
+
+                if(countRow!=0){
+                    val ptemp = PositivosObjTemp(count, row[1], row[7].toInt())
+                    count++;
+                    room.casoPositivoDAO().insert(PositivosObjTemp(ptemp.ID,ptemp.DEPARTAMENTO,ptemp.FECHA))
+                }
+                countRow++
+            }
+
+            println("LEER ROOM")
+            for (item in room.casoPositivoDAO().obtenerCasos()){
+                println("INS "+"${item.ID},${item.DEPARTAMENTO},${item.FECHA}")
+            }
+        }
     }
 
-    private fun getMethod(){
-        val url = URL("https://files.minsa.gob.pe/s/eRqxR35ZCxrzNgr/download%22)")
-        val connection = url.openConnection()
-        val contentLength = connection.contentLength
-
-        val stream = DataInputStream(url.openStream())
-
-        val buffer = ByteArray(contentLength)
-        stream.readFully(buffer)
-        stream.close()
+    private fun LimpiarData(room : CasosDB){
+        lifecycleScope.launch(Dispatchers.IO) {
+            println("BORRAR ROOM")
+            for (item in room.casoPositivoDAO().obtenerCasos()) {
+                println("DEL "+"${item.ID},${item.DEPARTAMENTO},${item.FECHA}")
+                room.casoPositivoDAO().delete(item.ID)
+            }
+        }
     }
 
+    private fun verData(fragment : Fragment){
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragmentcontainer, fragment)
+        fragmentTransaction.commit()
+    }
 }
+
+
+
+private fun LlenarTabla(room: CasosDB, view: View){
+        println("LLENAR TABLA")
+        val tabla = view?.tlData
+        println("a" + tabla!!.id)
+        println(view?.findViewById<View>(R.id.tlData))
+//        lifecycleScope.launch(Dispatchers.IO){
+//            println("LLENAR TABLA")
+//            view?.temporalTableVDF?.text = ""
+//            for (item in room.casoPositivoDAO().obtenerCasos()){
+//                //val registro = LayoutInflater.from(Activity).inflate(R.layout.verdatafragment)
+//                val departamento = view?.findViewById<View>(R.id.tvRowDepartament) as TextView
+//                departamento.setText(item.DEPARTAMENTO)
+//                if (departamento.getParent() != null) {
+//                    (departamento.getParent() as ViewGroup).removeView(departamento) // <- fix
+//                }
+//                tlData?.addView(departamento)
+//            }
+//        }
+        val registroT = LayoutInflater.from(requireContext().applicationContext).inflate(R.layout.registro, null)
+        val depT = registroT?.findViewById<View>(R.id.tvRowDep) as TextView
+        if (depT.getParent() != null) {
+            (depT.getParent() as ViewGroup).removeView(depT) // <- fix
+        }
+        depT.setText("DEPARTAMENTO")
+        tabla.addView(depT)
+        for (item in 1..5) {
+            val registro = LayoutInflater.from(requireContext().applicationContext).inflate(R.layout.registro, null)
+            val departamento = registro?.findViewById<View>(R.id.tvRowDep) as TextView
+            if (departamento.getParent() != null) {
+                (departamento.getParent() as ViewGroup).removeView(departamento) // <- fix
+            }
+            departamento.setText(item.toString())
+            tabla.addView(departamento)
+        }
+    }

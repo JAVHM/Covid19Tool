@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <TableRow
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/trView"
+        android:layout_width="409dp"
+        android:layout_height="729dp">
+
+    <TextView
+        android:id="@+id/tvRowDep"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:layout_weight="0.25"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvRowCount"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_weight="0.3"
+        android:text="TextView" />
+</TableRow>

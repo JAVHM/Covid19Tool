@@ -13,6 +13,9 @@ interface CasoPositivoDAO {
     @Query("SELECT * FROM PositivosObjTemp WHERE FECHA=:fecha")
     fun getByFecha(fecha: Int):PositivosObjTemp
 
+    @Query("SELECT * FROM PositivosObjTemp WHERE DEPARTAMENTO=:dep")
+    fun getByDepartamento(dep:String): List<PositivosObjTemp>
+
     @Insert
     fun insert(PositivosObjTemp: PositivosObjTemp)
 
