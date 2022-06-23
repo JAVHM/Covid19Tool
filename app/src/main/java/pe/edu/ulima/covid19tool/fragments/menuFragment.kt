@@ -81,10 +81,19 @@ class menuFragment : Fragment(R.layout.menufragment) {
                     val row : List<String> = line!!.split(";")
 
                     if(countRow!=0){
-                        val ptemp = PositivosObjTemp(count, row[1], row[0].toInt())
-                        count++;
-                        room.casoPositivoDAO().insert(PositivosObjTemp(ptemp.ID,ptemp.DEPARTAMENTO,ptemp.FECHA))
-                        println("item "+ptemp.ID+" "+ptemp.FECHA+" "+ptemp.DEPARTAMENTO)
+                        if(row[7] == ""){
+                            println("ENTROOO")
+                            val ptemp = PositivosObjTemp(count, row[1], 0)
+                            count++;
+                            room.casoPositivoDAO().insert(PositivosObjTemp(ptemp.ID,ptemp.DEPARTAMENTO,ptemp.FECHA))
+                            println("item "+ptemp.ID+" "+ptemp.FECHA+" "+ptemp.DEPARTAMENTO)
+                        }else {
+                            val ptemp = PositivosObjTemp(count, row[1], row[7].toInt())
+                            count++;
+                            room.casoPositivoDAO()
+                                .insert(PositivosObjTemp(ptemp.ID, ptemp.DEPARTAMENTO, ptemp.FECHA))
+                            println("item " + ptemp.ID + " " + ptemp.FECHA + " " + ptemp.DEPARTAMENTO)
+                        }
                     }
                     countRow++
                 }
