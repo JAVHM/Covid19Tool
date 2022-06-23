@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
@@ -58,6 +59,19 @@ class menuFragment : Fragment(R.layout.menufragment) {
 
                 var count: Int = 0
                 var countRow: Int=0
+
+//           Inicia el progessBar
+                val progressBarInn = view?.findViewById<ProgressBar>(R.id.progressBarInner)
+                val progressBarOut = view?.findViewById<ProgressBar>(R.id.progressBarOuter)
+
+                Thread(Runnable {
+
+                    activity?.runOnUiThread(Runnable {
+                        progressBarInn?.visibility=View.VISIBLE
+                        progressBarOut?.visibility=View.VISIBLE
+                    })
+                }).start()
+
                 while (reader.readLine().also { line = it } != null){
                     val row : List<String> = line!!.split(";")
 
@@ -73,6 +87,14 @@ class menuFragment : Fragment(R.layout.menufragment) {
                 for (item in room.casoPositivoDAO().obtenerCasos()){
                     println("INS "+"${item.ID},${item.DEPARTAMENTO},${item.FECHA}")
                 }
+
+//              Fin del progressbar
+                Thread(Runnable {
+                    activity?.runOnUiThread(Runnable {
+                        progressBarInn?.visibility = View.INVISIBLE
+                        progressBarOut?.visibility = View.INVISIBLE })
+                }).start()
+
             }catch (e: Exception) {
                 println("Error $e")
             }
