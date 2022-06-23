@@ -76,7 +76,8 @@ class menuFragment : Fragment(R.layout.menufragment) {
                     })
                 }).start()
 
-                while (reader.readLine().also { line = it } != null){
+                for( i in 1..10000){
+                    reader.readLine().also { line = it }
                     val row : List<String> = line!!.split(";")
 
                     if(countRow!=0){
@@ -87,6 +88,19 @@ class menuFragment : Fragment(R.layout.menufragment) {
                     }
                     countRow++
                 }
+
+
+/*                while (reader.readLine().also { line = it } != null){
+                    val row : List<String> = line!!.split(";")
+
+                    if(countRow!=0){
+                        val ptemp = PositivosObjTemp(count, row[1], row[0].toInt())
+                        count++;
+                        room.casoPositivoDAO().insert(PositivosObjTemp(ptemp.ID,ptemp.DEPARTAMENTO,ptemp.FECHA))
+                        println("item "+ptemp.ID+" "+ptemp.FECHA+" "+ptemp.DEPARTAMENTO)
+                    }
+                    countRow++
+                }*/
                 println("LEER ROOM")
                 for (item in room.casoPositivoDAO().obtenerCasos()){
                     println("INS "+"${item.ID},${item.DEPARTAMENTO},${item.FECHA}")
