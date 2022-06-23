@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
-import kotlinx.android.synthetic.main.menufragment.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pe.edu.ulima.covid19tool.models.beans.PositivosObjTemp
@@ -28,15 +28,23 @@ class menuFragment : Fragment(R.layout.menufragment) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.menufragment, container, false)
-        val room= Room.databaseBuilder(container?.context!!.applicationContext, CasosDB::class.java,"casosBD").build()
+        var view = inflater.inflate(R.layout.menufragment, container, false)
+        var room= Room.databaseBuilder(container?.context!!.applicationContext, CasosDB::class.java,"casosBD").build()
         communicator = activity as Communicator
 
-        view.btnSincronizar.setOnClickListener{
+
+//        view.btnSincronizar.setOnClickListener{
+//            SincronizarData(room)
+//        }
+        view.findViewById<Button>(R.id.btnSincronizar).setOnClickListener{
             SincronizarData(room)
         }
-        view.btnLimpiar.setOnClickListener{LimpiarData(room) }
-        view.btnVerData.setOnClickListener {
+        //view.btnLimpiar.setOnClickListener{LimpiarData(room) }
+        view.findViewById<Button>(R.id.btnLimpiar).setOnClickListener{LimpiarData(room) }
+//        view.btnVerData.setOnClickListener {
+//            communicator.passDataCom(room)
+//        }
+        view.findViewById<Button>(R.id.btnVerData).setOnClickListener {
             communicator.passDataCom(room)
         }
 

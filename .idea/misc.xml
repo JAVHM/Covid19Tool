@@ -3,11 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/W10/Desktop/Clases 2022-1/Pogramacion Movil/Covid19Tool/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/W10/Desktop/Clases 2022-1/Pogramacion Movil/Covid19Tool/app/src/main/res/layout/fragment_casopositivo.xml" value="0.2" />
+        <entry key="..\:/Users/W10/Desktop/Clases 2022-1/Pogramacion Movil/Covid19Tool/app/src/main/res/layout/item_casopositivo.xml" value="0.4" />
+        <entry key="..\:/Users/W10/Desktop/Clases 2022-1/Pogramacion Movil/Covid19Tool/app/src/main/res/layout/menufragment.xml" value="0.264" />
+        <entry key="..\:/Users/W10/Desktop/Clases 2022-1/Pogramacion Movil/Covid19Tool/app/src/main/res/layout/registro_unico.xml" value="0.264" />
+        <entry key="..\:/Users/W10/Desktop/Clases 2022-1/Pogramacion Movil/Covid19Tool/app/src/main/res/layout/verdatafragment.xml" value="0.2" />
         <entry key="..\:/Users/javan/AndroidStudioProjects/Covid19Tool/app/src/main/res/layout/activity_main.xml" value="0.35733695652173914" />
-        <entry key="..\:/Users/javan/AndroidStudioProjects/Covid19Tool/app/src/main/res/layout/fragment_menu.xml" value="0.22" />
-        <entry key="..\:/Users/javan/AndroidStudioProjects/Covid19Tool/app/src/main/res/layout/menufragment.xml" value="0.18541666666666667" />
-        <entry key="..\:/Users/javan/AndroidStudioProjects/Covid19Tool/app/src/main/res/layout/registro.xml" value="0.36037441497659906" />
-        <entry key="..\:/Users/javan/AndroidStudioProjects/Covid19Tool/app/src/main/res/layout/verdatafragment.xml" value="0.5" />
       </map>
     </option>
   </component>
