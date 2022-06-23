@@ -33,17 +33,13 @@ class menuFragment : Fragment(R.layout.menufragment) {
         communicator = activity as Communicator
 
 
-//        view.btnSincronizar.setOnClickListener{
-//            SincronizarData(room)
-//        }
+
         view.findViewById<Button>(R.id.btnSincronizar).setOnClickListener{
             SincronizarData(room)
         }
-        //view.btnLimpiar.setOnClickListener{LimpiarData(room) }
+
         view.findViewById<Button>(R.id.btnLimpiar).setOnClickListener{LimpiarData(room) }
-//        view.btnVerData.setOnClickListener {
-//            communicator.passDataCom(room)
-//        }
+
         view.findViewById<Button>(R.id.btnVerData).setOnClickListener {
             communicator.passDataCom(room)
         }
@@ -112,10 +108,11 @@ class menuFragment : Fragment(R.layout.menufragment) {
     private fun LimpiarData(room : CasosDB){
         lifecycleScope.launch(Dispatchers.IO) {
             println("BORRAR ROOM")
-            for (item in room.casoPositivoDAO().obtenerCasos()) {
-                println("DEL "+"${item.ID},${item.DEPARTAMENTO},${item.FECHA}")
-                room.casoPositivoDAO().delete(item.ID)
-            }
+//            for (item in room.casoPositivoDAO().obtenerCasos()) {
+//                println("DEL "+"${item.ID},${item.DEPARTAMENTO},${item.FECHA}")
+//                room.casoPositivoDAO().delete(item.ID)
+//            }
+            room.casoPositivoDAO().deleteAll()
         }
     }
 }

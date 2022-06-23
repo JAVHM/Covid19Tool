@@ -24,4 +24,7 @@ interface CasoPositivoDAO {
 
     @Query("DELETE FROM PositivosObjTemp WHERE ID=:id")
     fun delete(id:Int)
+
+    @Query("DELETE FROM PositivosObjTemp")
+    fun deleteAll()
 }

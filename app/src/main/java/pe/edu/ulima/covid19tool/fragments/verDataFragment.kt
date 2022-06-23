@@ -2,6 +2,7 @@ package pe.edu.ulima.covid19tool
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
@@ -20,6 +21,8 @@ class verDataFragment : Fragment(R.layout.verdatafragment) {
     val departamentosArray = arrayOf<String>("AMAZONAS","ANCASH","APURIMAC","AREQUIPA","AYACUCHO",
         "CAJAMARCA", "CALLAO", "CUSCO", "HUANCAVELICA", "HUANUCO","ICA","JUNIN","LA LIBERTAD","LAMBAYEQUE","LIMA",
         "LORETO", "MADRE DE DIOS", "MOQUEGUA", "PASCO", "PIURA", "PUNO", "SAN MARTIN", "TACNA", "TUMBES", "UCAYALI")
+    private lateinit var communicator: Communicator
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,12 +31,18 @@ class verDataFragment : Fragment(R.layout.verdatafragment) {
         val view = inflater.inflate(R.layout.verdatafragment, container, false)
         val room= Room.databaseBuilder(container?.context!!.applicationContext, CasosDB::class.java,"casosBD").build()
         //LeerData(room)
+        communicator = activity as Communicator
+
         LlenarTabla(room, view)
+        view.findViewById<Button>(R.id.btnBackVDT).setOnClickListener {
+            communicator.Volver()
+        }
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
     }
     private fun LeerData(room : CasosDB){
         lifecycleScope.launch(Dispatchers.IO){

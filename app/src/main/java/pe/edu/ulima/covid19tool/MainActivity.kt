@@ -11,7 +11,8 @@ class MainActivity : AppCompatActivity(), Communicator {
         setContentView(R.layout.activity_main)
 
         val fragmentMenu = menuFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer, fragmentMenu).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer, fragmentMenu)
+            .commit()
     }
 
     override fun passDataCom(room: CasosDB) {
@@ -25,4 +26,17 @@ class MainActivity : AppCompatActivity(), Communicator {
         transaction.replace(R.id.fragmentcontainer, fragmentVDF)
         transaction.commit()
     }
+
+    override fun Volver() {
+
+        val bundle = Bundle()
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val fragmentMenu = menuFragment()
+        fragmentMenu.arguments = bundle
+
+        transaction.replace(R.id.fragmentcontainer, fragmentMenu)
+        transaction.commit()
+    }
+
 }
