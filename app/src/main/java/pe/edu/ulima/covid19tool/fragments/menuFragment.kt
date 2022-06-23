@@ -1,6 +1,6 @@
 package pe.edu.ulima.covid19tool
 
-import android.content.Context
+import android.database.Cursor
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,14 +36,15 @@ class menuFragment : Fragment(R.layout.menufragment) {
         var btnLimpiar=view.findViewById<Button>(R.id.btnLimpiar)
         var btnVerData=view.findViewById<Button>(R.id.btnVerData)
 
-
+        verificarTablaLlenna(room, btnSincronizar)
 
         btnSincronizar.setOnClickListener{
             SincronizarData(room)
             btnSincronizar.setEnabled(false);
         }
 
-        btnLimpiar.setOnClickListener{LimpiarData(room)
+        btnLimpiar.setOnClickListener{
+            LimpiarData(room)
             btnSincronizar.setEnabled(true);
         }
 
@@ -53,6 +54,17 @@ class menuFragment : Fragment(R.layout.menufragment) {
 
         return view
     }
+
+    private fun verificarTablaLlenna(room : CasosDB, btn: Button){
+        val mCursor: Cursor = room.query("SELECT * FROM PositivosObjTemp", null)
+
+        if (mCursor.moveToFirst()) {
+            btn.setEnabled(false)
+        } else {
+            btn.setEnabled(true)
+        }
+    }
+
     private fun SincronizarData(room : CasosDB){
         lifecycleScope.launch(Dispatchers.IO){
             //Intento con archivo CSV
@@ -89,7 +101,6 @@ class menuFragment : Fragment(R.layout.menufragment) {
 
                     if(countRow!=0){
                         if(row[7] == ""){
-                            println("ENTROOO")
                             val ptemp = PositivosObjTemp(count, row[1], 0)
                             count++;
                             room.casoPositivoDAO().insert(PositivosObjTemp(ptemp.ID,ptemp.DEPARTAMENTO,ptemp.FECHA))
