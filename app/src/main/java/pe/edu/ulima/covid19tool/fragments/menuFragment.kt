@@ -32,15 +32,22 @@ class menuFragment : Fragment(R.layout.menufragment) {
         var room= Room.databaseBuilder(container?.context!!.applicationContext, CasosDB::class.java,"casosBD").build()
         communicator = activity as Communicator
 
+        var btnSincronizar=view.findViewById<Button>(R.id.btnSincronizar)
+        var btnLimpiar=view.findViewById<Button>(R.id.btnLimpiar)
+        var btnVerData=view.findViewById<Button>(R.id.btnVerData)
 
 
-        view.findViewById<Button>(R.id.btnSincronizar).setOnClickListener{
+
+        btnSincronizar.setOnClickListener{
             SincronizarData(room)
+            btnSincronizar.setEnabled(false);
         }
 
-        view.findViewById<Button>(R.id.btnLimpiar).setOnClickListener{LimpiarData(room) }
+        btnLimpiar.setOnClickListener{LimpiarData(room)
+            btnSincronizar.setEnabled(true);
+        }
 
-        view.findViewById<Button>(R.id.btnVerData).setOnClickListener {
+        btnVerData.setOnClickListener {
             communicator.passDataCom(room)
         }
 
